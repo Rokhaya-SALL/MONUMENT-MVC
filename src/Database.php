@@ -8,7 +8,7 @@ use PDOException;
 class Database{
  
     private static ?PDO $pdoInstance = null;
-    private const DB_SETTINGS_PATH = __DIR__.'/../config/db.ini';
+    private const ENV_FILE_PATH = __DIR__.'/../config/db.ini';
     private function __construct(){
 
     }
