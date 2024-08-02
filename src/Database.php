@@ -4,11 +4,12 @@ namespace App;
 
 use PDO;
 use PDOException;
+use Symfony\Component\Dotenv\Dotenv;
 
 class Database{
  
     private static ?PDO $pdoInstance = null;
-    private const ENV_FILE_PATH = __DIR__.'/../config/db.ini';
+    private const ENV_FILE_PATH = __DIR__.'/../.env';
     private function __construct(){
 
     }
@@ -18,6 +19,8 @@ class Database{
             
             try {
 
+                $dotenv = new Dotenv();
+                $dotenv->loadEnv(path: self::ENV_FILE_PATH);
                 [
                     'DB_DRIVER' => $driver,
                     'DB_HOST' => $host,
@@ -26,7 +29,7 @@ class Database{
                     'DB_CHARSET' => $charset,
                     'DB_USER' => $user,
                     'DB_PASSWORD' => $password
-                ] = parse_ini_file(self::DB_SETTINGS_PATH);
+                ] = $_ENV;
                 
                 // Port par défaut de MySQL : 3306
                 self::$pdoInstance = new PDO(
